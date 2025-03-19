@@ -371,9 +371,13 @@ if [ "${DOCKER_DASH_COMPOSE_VERSION}" != "none" ]; then
         fi
     else
         compose_version=${DOCKER_DASH_COMPOSE_VERSION#v}
+        echo "compose_version1" ${compose_version}
         docker_compose_url="https://github.com/docker/compose"
         # docker_compose_url="https://gh-proxy.com/docker/compose"
+        echo "docker_compose_url" ${docker_compose_url}
         find_version_from_git_tags compose_version "$docker_compose_url" "tags/v"
+        
+        echo "compose_version2" ${compose_version}
         echo "(*) Installing docker-compose ${compose_version}..."
         # curl -fsSL "https://github.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}" -o ${docker_compose_path} || {
         curl -fsSL "https://gh-proxy.com/github.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}" -o ${docker_compose_path} || {
