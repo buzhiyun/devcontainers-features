@@ -330,7 +330,7 @@ fallback_compose(){
     get_previous_version "${url}" "${repo_url}" compose_version
     echo -e "\nAttempting to install v${compose_version}"
     # curl -fsSL "https://github.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}" -o ${docker_compose_path}
-    curl -fsSL "https://gh-proxy.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}" -o ${docker_compose_path}
+    curl -fsSL "https://gh-proxy.com/github.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}" -o ${docker_compose_path}
 }
 
 # If 'docker-compose' command is to be included
@@ -350,13 +350,13 @@ if [ "${DOCKER_DASH_COMPOSE_VERSION}" != "none" ]; then
 
         if [ "${target_compose_arch}" = "x86_64" ]; then
             echo "(*) Installing docker compose v1..."
-            curl -fsSL "https://gh-proxy.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64" -o ${docker_compose_path}
+            curl -fsSL "https://gh-proxy.com/github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64" -o ${docker_compose_path}
             # curl -fsSL "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64" -o ${docker_compose_path}
             chmod +x ${docker_compose_path}
 
             # Download the SHA256 checksum
             # DOCKER_COMPOSE_SHA256="$(curl -sSL "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64.sha256" | awk '{print $1}')"
-            DOCKER_COMPOSE_SHA256="$(curl -sSL "https://gh-proxy.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64.sha256" | awk '{print $1}')"
+            DOCKER_COMPOSE_SHA256="$(curl -sSL "https://gh-proxy.com/github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64.sha256" | awk '{print $1}')"
             echo "${DOCKER_COMPOSE_SHA256}  ${docker_compose_path}" > docker-compose.sha256sum
             sha256sum -c docker-compose.sha256sum --ignore-missing
         elif [ "${VERSION_CODENAME}" = "bookworm" ]; then
@@ -371,12 +371,12 @@ if [ "${DOCKER_DASH_COMPOSE_VERSION}" != "none" ]; then
         fi
     else
         compose_version=${DOCKER_DASH_COMPOSE_VERSION#v}
-        # docker_compose_url="https://github.com/docker/compose"
-        docker_compose_url="https://gh-proxy.com/docker/compose"
+        docker_compose_url="https://github.com/docker/compose"
+        # docker_compose_url="https://gh-proxy.com/docker/compose"
         find_version_from_git_tags compose_version "$docker_compose_url" "tags/v"
         echo "(*) Installing docker-compose ${compose_version}..."
         # curl -fsSL "https://github.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}" -o ${docker_compose_path} || {
-        curl -fsSL "https://gh-proxy.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}" -o ${docker_compose_path} || {
+        curl -fsSL "https://gh-proxy.com/github.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}" -o ${docker_compose_path} || {
             if [[ $DOCKER_DASH_COMPOSE_VERSION == "latest" ]]; then 
                 fallback_compose "$docker_compose_url"
             else
@@ -388,7 +388,7 @@ if [ "${DOCKER_DASH_COMPOSE_VERSION}" != "none" ]; then
 
         # Download the SHA256 checksum
         # DOCKER_COMPOSE_SHA256="$(curl -sSL "https://github.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}.sha256" | awk '{print $1}')"
-        DOCKER_COMPOSE_SHA256="$(curl -sSL "https://gh-proxy.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}.sha256" | awk '{print $1}')"
+        DOCKER_COMPOSE_SHA256="$(curl -sSL "https://gh-proxy.com/github.com/docker/compose/releases/download/v${compose_version}/docker-compose-linux-${target_compose_arch}.sha256" | awk '{print $1}')"
         echo "${DOCKER_COMPOSE_SHA256}  ${docker_compose_path}" > docker-compose.sha256sum
         sha256sum -c docker-compose.sha256sum --ignore-missing
 
@@ -405,7 +405,7 @@ fallback_compose-switch() {
     get_previous_version "$url" "$repo_url" compose_switch_version
     echo -e "\nAttempting to install v${compose_switch_version}"
     # curl -fsSL "https://github.com/docker/compose-switch/releases/download/v${compose_switch_version}/docker-compose-linux-${architecture}" -o /usr/local/bin/compose-switch
-    curl -fsSL "https://gh-proxy.com/docker/compose-switch/releases/download/v${compose_switch_version}/docker-compose-linux-${architecture}" -o /usr/local/bin/compose-switch
+    curl -fsSL "https://gh-proxy.com/github.com/docker/compose-switch/releases/download/v${compose_switch_version}/docker-compose-linux-${architecture}" -o /usr/local/bin/compose-switch
 }
 
 # Install docker-compose switch if not already installed - https://github.com/docker/compose-switch#manual-installation
@@ -415,11 +415,11 @@ if [ "${INSTALL_DOCKER_COMPOSE_SWITCH}" = "true" ] && ! type compose-switch > /d
         current_compose_path="$(which docker-compose)"
         target_compose_path="$(dirname "${current_compose_path}")/docker-compose-v1"
         compose_switch_version="latest"
-        # compose_switch_url="https://github.com/docker/compose-switch"
-        compose_switch_url="https://gh-proxy.com/docker/compose-switch"
+        compose_switch_url="https://github.com/docker/compose-switch"
+        # compose_switch_url="https://gh-proxy.com/docker/compose-switch"
         find_version_from_git_tags compose_switch_version "$compose_switch_url"
         # curl -fsSL "https://github.com/docker/compose-switch/releases/download/v${compose_switch_version}/docker-compose-linux-${architecture}" -o /usr/local/bin/compose-switch || fallback_compose-switch "$compose_switch_url"
-        curl -fsSL "https://gh-proxy.com/docker/compose-switch/releases/download/v${compose_switch_version}/docker-compose-linux-${architecture}" -o /usr/local/bin/compose-switch || fallback_compose-switch "$compose_switch_url"
+        curl -fsSL "https://gh-proxy.com/github.com/docker/compose-switch/releases/download/v${compose_switch_version}/docker-compose-linux-${architecture}" -o /usr/local/bin/compose-switch || fallback_compose-switch "$compose_switch_url"
         chmod +x /usr/local/bin/compose-switch
         # TODO: Verify checksum once available: https://github.com/docker/compose-switch/issues/11
         # Setup v1 CLI as alternative in addition to compose-switch (which maps to v2)
@@ -455,20 +455,20 @@ fallback_buildx() {
     buildx_file_name="buildx-v${buildx_version}.linux-${architecture}"
     echo -e "\nAttempting to install v${buildx_version}"
     # wget https://github.com/docker/buildx/releases/download/v${buildx_version}/${buildx_file_name}
-    wget https://gh-proxy.com/docker/buildx/releases/download/v${buildx_version}/${buildx_file_name}
+    wget https://gh-proxy.com/github.com/docker/buildx/releases/download/v${buildx_version}/${buildx_file_name}
 }
  
 if [ "${INSTALL_DOCKER_BUILDX}" = "true" ]; then
     buildx_version="latest"
-    # docker_buildx_url="https://github.com/docker/buildx"
-    docker_buildx_url="https://gh-proxy.com/docker/buildx"
+    docker_buildx_url="https://github.com/docker/buildx"
+    # docker_buildx_url="https://gh-proxy.com/docker/buildx"
     find_version_from_git_tags buildx_version "$docker_buildx_url" "refs/tags/v"
     echo "(*) Installing buildx ${buildx_version}..."
     buildx_file_name="buildx-v${buildx_version}.linux-${architecture}"
     
     cd /tmp
     # wget https://github.com/docker/buildx/releases/download/v${buildx_version}/${buildx_file_name} || fallback_buildx "$docker_buildx_url"
-    wget https://gh-proxy.com/docker/buildx/releases/download/v${buildx_version}/${buildx_file_name} || fallback_buildx "$docker_buildx_url"
+    wget https://gh-proxy.com/github.com/docker/buildx/releases/download/v${buildx_version}/${buildx_file_name} || fallback_buildx "$docker_buildx_url"
     
     docker_home="/usr/libexec/docker"
     cli_plugins_dir="${docker_home}/cli-plugins"
